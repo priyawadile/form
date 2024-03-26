@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Event</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#add-sponsor").click(function() {
+                $(".sponsor-input-container").append('<div><input type="text" name="sponsor_names" class="sponsor-input"/><button type="button" class="remove-sponsor">Remove</button></div>');
+            });
+
+            $(document).on('click', '.remove-sponsor', function() {
+                $(this).parent('div').remove();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Add Event</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="sponsor-input-container">
+            <!-- Sponsor inputs will be added dynamically here -->
+        </div>
+        <button type="button" id="add-sponsor">Add Sponsor</button>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
