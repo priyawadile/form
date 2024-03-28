@@ -1,30 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Event</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#add-sponsor").click(function() {
-                $(".sponsor-input-container").append('<div><input type="text" name="sponsor_names" class="sponsor-input"/><button type="button" class="remove-sponsor">Remove</button></div>');
-            });
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-            $(document).on('click', '.remove-sponsor', function() {
-                $(this).parent('div').remove();
-            });
-        });
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #sponsor-container {
+            margin-bottom: 15px;
+        }
+
+
+        #sponsor-container input[type="text"] {
+            width: calc(100% - 100px);
+            margin-bottom: 5px;
+        }
+
+        #sponsor-container button {
+            margin-left: 10px;
+            padding: 6px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #sponsor-container button:hover {
+            background-color: #c82333;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+    <title>Add Event</title>
+    <script>
+        function addSponsorField() {
+            var sponsorContainer = document.getElementById("sponsor-container");
+            var newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.placeholder = "Enter sponsor name";
+            newInput.name = "sponsors[]"; 
+            //sponsorContainer.appendChild(newInput);
+            //sponsorContainer.appendChild(document.createElement("br")); 
+
+            var removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.textContent = "Remove Sponsor";
+            removeButton.onclick = function() {
+                sponsorContainer.removeChild(newInput);
+                sponsorContainer.removeChild(removeButton);
+                sponsorContainer.removeChild(br);
+            };
+
+            var br = document.createElement("br");
+            sponsorContainer.appendChild(newInput);
+            sponsorContainer.appendChild(removeButton);
+            sponsorContainer.appendChild(br);
+        }
+
     </script>
 </head>
 <body>
     <h2>Add Event</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <div class="sponsor-input-container">
-            <!-- Sponsor inputs will be added dynamically here -->
-        </div>
-        <button type="button" id="add-sponsor">Add Sponsor</button>
-        <br>
+        
+        <label for="event-name">Event Name:</label>
+        <input type="text" id="event-name" name="event_name" required><br>
+
+        <div id="sponsor-container"> </div>
+
+        <button type="button" onclick="addSponsorField()">Add Sponsor</button><br>
+
         <input type="submit" value="Submit">
     </form>
 </body>

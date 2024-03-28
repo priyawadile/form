@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Event</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("add-sponsor").addEventListener("click", function() {
+                var sponsorInputContainer = document.querySelector(".sponsor-input-container");
+                var newSponsorDiv = document.createElement("div");
+                var newSponsorInput = document.createElement("input");
+                var newRemoveButton = document.createElement("button");
+
+                newSponsorInput.type = "text";
+                newSponsorInput.name = "sponsor_names";
+                newSponsorInput.classList.add("sponsor-input");
+
+                newRemoveButton.type = "button";
+                newRemoveButton.textContent = "Remove";
+                newRemoveButton.classList.add("remove-sponsor");
+                newRemoveButton.addEventListener("click", function() {
+                    newSponsorDiv.remove();
+                });
+
+                newSponsorDiv.appendChild(newSponsorInput);
+                newSponsorDiv.appendChild(newRemoveButton);
+                sponsorInputContainer.appendChild(newSponsorDiv);
+            });
+
+            document.addEventListener("click", function(event) {
+                if (event.target.classList.contains("remove-sponsor")) {
+                    event.target.parentElement.remove();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Add Event</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="sponsor-input-container">
+            <!-- Sponsor inputs will be added dynamically here -->
+        </div>
+        <button type="button" id="add-sponsor">Add Sponsor</button>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
